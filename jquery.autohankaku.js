@@ -58,7 +58,7 @@
         //this.targetEl = $(this.options.targetEl);
         // assign (create) new version of convert function that use this.
         convert = convert.bind(this);
-        this.sourceEl.on('keydown', convert);
+        this.sourceEl.on('keyup', convert);
     };
     // custom 
     function convert () {
@@ -75,24 +75,40 @@
         if( !isRegHan(sourceVal) ) {
           this.sourceEl[0].value = "";
           newVal = zenToHan.call(this,sourceVal);
-          console.log(sourceVal);
-          console.log(newVal);
 
-          this.sourceEl[0].value = newVal;
+          if( isDigit(newVal) ) {
+            this.sourceEl[0].value = newVal;
+          } 
+          //console.log(sourceVal);
+          //console.log(newVal);
           //this.sourceEl.val( sourceVal );
         }
     };
     //
-    function isRegHan(str){
-      //str=obj.value;
-      /* 半角英数字(0-9)、四則演算子(+-/*)、ピリオド(.)、カンマ(,)のみ */
-      var tmp=str.match(/[0-9a-zA-Z\+\-\/\*\,\. ]+/g);
+    function isDigit( str ) {
+      var tmp = str.match(/[0-9]+/g);
       /* matchメソッドの返り値が入力値と等しい場合は、全て半角 */
-      if (tmp!=str){
-          //"半角文字以外が含まれている
+      if ( tmp != str ) {
+          //半角文字以外が含まれている
+          console.log('false');
           return false;
       }else{
-          //"半角文字のみ
+          //半角文字のみ
+          console.log('true');
+          return true;
+      }
+    };
+    //
+    function isRegHan( str ) {
+      /* 半角英数字(0-9)、四則演算子(+-/*)、ピリオド(.)、カンマ(,)のみ */
+      var tmp=str.match(/[0-9a-zA-Z\+\-\/\*\,\. ]+/g);
+      //var tmp = str.match(/[0-9]+/g);
+      /* matchメソッドの返り値が入力値と等しい場合は、全て半角 */
+      if ( tmp != str ) {
+          //半角文字以外が含まれている
+          return false;
+      }else{
+          //半角文字のみ
           return true;
       }
     };
